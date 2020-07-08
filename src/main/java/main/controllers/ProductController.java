@@ -14,7 +14,7 @@ public class ProductController {
     @Autowired private ProductService productService;
 
     @PostMapping("")
-    public Product addProduct(@RequestBody Product product) {
+    public Product Post(@RequestBody Product product) {
         return this.productService.saveProduct(product);
     }
 
@@ -29,17 +29,17 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable(required = true) int id) {
+    public Product Get(@PathVariable(required = true) int id) {
         return this.productService.getProductById(id);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@RequestBody Product product) {
+    public Product Update(@RequestBody Product product) {
         return this.productService.updateProduct(product);
     }
 
     @DeleteMapping("/{id}")
-    public String updateProduct(@PathVariable int id) {
+    public String Delete(@PathVariable int id) {
         return this.productService.deleteProduct(id);
     }
 }
