@@ -23,15 +23,6 @@ public class ProductController {
         return this.productService.saveProduct(product);
     }
 
-    /*@RequestMapping("")
-    public Page<Product> Get(@RequestParam(value = "pageNumber", required = false, defaultValue = "50") Integer pageNumber,
-                             @RequestParam(value = "pageSize", required = false, defaultValue = "0") Integer pageSize,
-                             @RequestParam(value = "sort", required = false, defaultValue = "id") String sort
-    ) {
-        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sort).ascending());
-        return this.productService.getProducts(paging);
-    }*/
-
     @RequestMapping("")
     public Page<Product> Get(
             @PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "id") Pageable page) {
