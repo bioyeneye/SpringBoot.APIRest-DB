@@ -3,7 +3,11 @@ package main.services;
 import main.entities.Product;
 import main.repositories.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,12 +20,8 @@ public class ProductService {
         return this.productRepository.save(product);
     }
 
-    public List<Product> saveProducts(List<Product> products){
-        return this.productRepository.saveAll(products);
-    }
-
-    public List<Product> getProducts() {
-        return this.productRepository.findAll();
+    public Page<Product> getProducts(Pageable paging) {
+        return this.productRepository.findAll(paging);
     }
 
     public Product getProductById(int id) {
@@ -39,6 +39,11 @@ public class ProductService {
 
     public Product updateProduct(Product product) {
         Product existingProduct = this.productRepository.findById(product.getId()).orElse(null);
+        if (existingProduct == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, String.format("Product with id %d not found.", product.getId())
+            );
+        }
         existingProduct.setName(product.getName());
         existingProduct.setQuantity(product.getQuantity());
         existingProduct.setPrice(product.getPrice());
