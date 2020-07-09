@@ -1,14 +1,16 @@
 package main.controllers;
 
+import io.micrometer.core.annotation.Timed;
 import main.entities.Product;
 import main.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,7 +25,9 @@ public class ProductController {
         return this.productService.saveProduct(product);
     }
 
-    @RequestMapping("")
+    @Timed
+    @Transactional(readOnly = true)
+    @RequestMapping(value = "",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<Product> Get(
             @PageableDefault(size = 20, direction = Sort.Direction.ASC, sort = "id") Pageable page) {
         return this.productService.getProducts(page);

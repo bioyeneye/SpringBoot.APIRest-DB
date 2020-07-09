@@ -1,7 +1,7 @@
 package main.services;
 
 import main.entities.Product;
-import main.repositories.IProductRepository;
+import main.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,12 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @Service
 public class ProductService {
     @Autowired
-    private IProductRepository productRepository;
+    private ProductRepository productRepository;
 
     public Product saveProduct(Product product) {
         return this.productRepository.save(product);
